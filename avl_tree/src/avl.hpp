@@ -7,14 +7,15 @@ public:
   AVL();
   ~AVL();
 
-  int find(int data);
-  int select(size_t i);
-  int min();
-  int max();
-  size_t rank(int data);
-  void print();
+  int find(int data) const;
+  int select(size_t i) const;
+  int min() const;
+  int max() const;
+  size_t rank(int data) const;
+  void print() const;
   bool insert(int data);
   bool remove(int data);
+  bool verify() const;
 
 private:
   struct Node {
@@ -30,19 +31,20 @@ private:
 
   Node *root;
 
-  inline size_t height(Node *node);
-  inline size_t size(Node *node);
-  inline int balance(Node *node);
+  inline size_t height(Node *node) const;
+  inline size_t size(Node *node) const;
+  inline int balance(Node *node) const;
   void update_node_data(Node *node);
   Node *right_rotate(Node *y);
   Node *left_rotate(Node *x);
   Node *rebalance(Node *node);
   Node *insert_rec(Node *node, int data);
-  Node *find_min_node(Node *node);
+  Node *find_min_node(Node *node) const;
   Node *remove_rec(Node *node, int data);
-  Node *find_rec(Node *node, int data);
-  int get_rank_rec(Node *node, int data);
-  int select_rec(Node *node, size_t i);
-  void print_rec(Node *node);
+  Node *find_rec(Node *node, int data) const;
+  int get_rank_rec(Node *node, int data) const;
+  int select_rec(Node *node, size_t i) const;
+  void print_rec(Node *node) const;
   void destruct_rec(Node *node);
+  bool verify_rec(Node *node) const;
 };

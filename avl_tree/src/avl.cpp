@@ -15,7 +15,7 @@ void AVL::destruct_rec(AVL::Node *node) {
   }
 }
 
-inline size_t AVL::height(AVL::Node *node) {
+inline size_t AVL::height(AVL::Node *node) const {
   if (node) {
     return node->height;
   } else {
@@ -23,7 +23,7 @@ inline size_t AVL::height(AVL::Node *node) {
   }
 }
 
-inline size_t AVL::size(AVL::Node *node) {
+inline size_t AVL::size(AVL::Node *node) const {
   if (node) {
     return node->size;
   } else {
@@ -31,7 +31,7 @@ inline size_t AVL::size(AVL::Node *node) {
   }
 }
 
-inline int AVL::balance(AVL::Node *node) {
+inline int AVL::balance(AVL::Node *node) const {
   if (node) {
     return height(node->left) - height(node->right);
   } else {
@@ -106,7 +106,7 @@ AVL::Node *AVL::insert_rec(AVL::Node *node, int data) {
   return rebalance(node);
 }
 
-AVL::Node *AVL::find_min_node(AVL::Node *node) {
+AVL::Node *AVL::find_min_node(AVL::Node *node) const {
   Node *cur = node;
   while (cur && cur->left) {
     cur = cur->left;
@@ -142,7 +142,7 @@ AVL::Node *AVL::remove_rec(AVL::Node *node, int data) {
   return rebalance(node);
 }
 
-AVL::Node *AVL::find_rec(AVL::Node *node, int data) {
+AVL::Node *AVL::find_rec(AVL::Node *node, int data) const {
   if (!node) {
     return nullptr;
   }
@@ -156,7 +156,7 @@ AVL::Node *AVL::find_rec(AVL::Node *node, int data) {
   }
 }
 
-int AVL::get_rank_rec(AVL::Node *node, int data) {
+int AVL::get_rank_rec(AVL::Node *node, int data) const {
   if (!node) {
     return 0;
   }
@@ -170,7 +170,7 @@ int AVL::get_rank_rec(AVL::Node *node, int data) {
   }
 }
 
-int AVL::select_rec(AVL::Node *node, size_t i) {
+int AVL::select_rec(AVL::Node *node, size_t i) const {
   if (!node) {
     return INT_MIN;
   }
@@ -186,7 +186,7 @@ int AVL::select_rec(AVL::Node *node, size_t i) {
   return select_rec(node->right, i - left_size - 1);
 }
 
-int AVL::find(int data) {
+int AVL::find(int data) const {
   Node *node = find_rec(root, data);
   if (node) {
     return node->data;
@@ -195,9 +195,9 @@ int AVL::find(int data) {
   }
 }
 
-int AVL::select(size_t i) { return select_rec(root, i); }
+int AVL::select(size_t i) const { return select_rec(root, i); }
 
-int AVL::min() {
+int AVL::min() const {
   Node *candidate = find_min_node(root);
   if (candidate) {
     return candidate->data;
@@ -206,7 +206,7 @@ int AVL::min() {
   return 0;
 }
 
-int AVL::max() {
+int AVL::max() const {
   if (root) {
     Node *cur = root;
     while (cur && cur->right) {
@@ -219,9 +219,9 @@ int AVL::max() {
   }
 }
 
-size_t AVL::rank(int data) { return get_rank_rec(root, data); }
+size_t AVL::rank(int data) const { return get_rank_rec(root, data); }
 
-void AVL::print_rec(AVL::Node *node) {
+void AVL::print_rec(AVL::Node *node) const {
   if (node) {
     print_rec(node->left);
     std::cout << node->data << " ";
@@ -229,7 +229,7 @@ void AVL::print_rec(AVL::Node *node) {
   }
 }
 
-void AVL::print() {
+void AVL::print() const {
   print_rec(root);
   std::cout << std::endl;
 }
@@ -244,4 +244,25 @@ bool AVL::remove(int data) {
   size_t initial_size = size(root);
   root = remove_rec(root, data);
   return size(root) < initial_size;
+}
+
+bool AVL::verify() const { return verify_rec(root); }
+
+bool AVL::verify_rec(AVL::Node *node) const {
+  if (!node) {
+    return true;
+  }
+  verify_rec(node->left);
+  if (balance(node) > 1 || balance(node) < -1) {
+    return false;
+  }
+  if (node->left && node->right) {
+    if (node->left->data > node->right->data) {
+      return false;
+    }
+  }
+
+  verify_rec(node->right);
+
+  return true;
 }
