@@ -1,4 +1,5 @@
 #include "avl.hpp"
+#include "gtest/gtest.h"
 #include <cstdlib>
 #include <gtest/gtest.h>
 
@@ -155,5 +156,6 @@ TEST(AvlTest, SetFuzz) {
       else
         EXPECT_EQ(found, INT_MIN);
     }
+    EXPECT_TRUE(a.verify());
   }
 }
