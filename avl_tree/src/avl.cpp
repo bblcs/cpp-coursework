@@ -257,7 +257,8 @@ bool AVL::verify_rec(AVL::Node *node) const {
     return false;
   }
   if (node->left && node->right) {
-    if (node->left->data > node->right->data) {
+    if (node->left->data > node->right->data && node->left->data < node->data &&
+        node->right->data > node->data) {
       return false;
     }
   }
