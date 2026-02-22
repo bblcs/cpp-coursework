@@ -2,6 +2,7 @@
 
 #include "point.hpp"
 #include "vec.hpp"
+#include <optional>
 
 struct Line {
   Line(const Vec &dir, const Point &st) : direction(dir), start(st) {}
@@ -17,9 +18,9 @@ struct Line {
     return parallel(other) && start.equals(other.start);
   }
 
-  Point *intersection(const Line &other) const {
+  std::optional<Point> intersection(const Line &other) const {
     if (parallel(other) || direction.null() || other.direction.null()) {
-      return nullptr;
+      return std::nullopt;
     }
 
     double r =
@@ -29,7 +30,7 @@ struct Line {
         (direction.y * other.direction.x - direction.x * other.direction.y);
 
     double s = (start.x - other.start.x + r * direction.x) / other.direction.x;
-    return new Point(r, s);
+    return Point(r, s);
   }
 
   Line perpendicular(const Point &p) {
