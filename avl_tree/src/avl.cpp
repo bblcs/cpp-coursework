@@ -5,6 +5,16 @@
 
 AVL::AVL() { root = nullptr; }
 
+AVL::AVL(const AVL &other) : root(nullptr) { copy_rec(*this, other.root); }
+
+void AVL::copy_rec(AVL &building, AVL::Node *node) {
+  if (node) {
+    copy_rec(building, node->left);
+    building.insert(node->data);
+    copy_rec(building, node->right);
+  }
+}
+
 AVL::~AVL() { destruct_rec(root); }
 
 void AVL::destruct_rec(AVL::Node *node) {

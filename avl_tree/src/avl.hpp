@@ -6,6 +6,7 @@
 class AVL {
 public:
   AVL();
+  AVL(const AVL &other);
   ~AVL();
 
   std::optional<int> find(int data) const;
@@ -48,4 +49,5 @@ private:
   void print_rec(Node *node) const;
   void destruct_rec(Node *node);
   bool verify_rec(Node *node) const;
+  void copy_rec(AVL &building, AVL::Node *node);
 };
