@@ -4,11 +4,32 @@
 #include "vec.hpp"
 #include <optional>
 
-struct Line {
-  Line(const Vec &dir, const Point &st) : direction(dir), start(st) {}
-  Line(double m, double c) : direction(1, m), start({0, c}) {}
-  Line(const Point &a, const Point &b)
-      : direction(Vec(b.x - a.x, b.y - a.y)), start(a) {}
+class Line {
+  const Vec direction;
+  const Point start;
+
+public:
+  static std::optional<Line> from_dir_and_point(const Vec &dir,
+                                                const Point &st) {
+    if (dir.length() == 0)
+      return std::nullopt;
+
+    return Line(dir, st);
+  }
+
+  static std::optional<Line> from_constants(double m, double c) {
+    if (m == 0)
+      return std::nullopt;
+
+    return Line(m, c);
+  }
+
+  static std::optional<Line> from_points(const Point &a, const Point &b) {
+    if (a.equals(b))
+      return std::nullopt;
+
+    return Line(a, b);
+  }
 
   bool parallel(const Line &other) const {
     return direction.equals(other.direction);
@@ -39,6 +60,8 @@ struct Line {
   }
 
 private:
-  const Vec direction;
-  const Point start;
+  Line(const Vec &dir, const Point &st) : direction(dir), start(st) {}
+  Line(double m, double c) : direction(1, m), start({0, c}) {}
+  Line(const Point &a, const Point &b)
+      : direction(Vec(b.x - a.x, b.y - a.y)), start(a) {}
 };
