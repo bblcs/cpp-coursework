@@ -6,7 +6,8 @@
 struct Line {
   Line(const Vec &dir, const Point &st) : direction(dir), start(st) {}
   Line(double m, double c) : direction(1, m), start({0, c}) {}
-  Line(Point a, Point b) : direction(Vec(b.x - a.x, b.y - a.y)), start(a) {}
+  Line(const Point &a, const Point &b)
+      : direction(Vec(b.x - a.x, b.y - a.y)), start(a) {}
 
   bool parallel(const Line &other) const {
     return direction.equals(other.direction);
