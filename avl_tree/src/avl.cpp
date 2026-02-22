@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <optional>
+#include <utility>
 
 AVL::AVL() { root = nullptr; }
 
@@ -276,4 +277,10 @@ bool AVL::verify_rec(AVL::Node *node) const {
   verify_rec(node->right);
 
   return true;
+}
+
+AVL &AVL::operator=(const AVL &other) {
+  AVL t(other);
+  std::swap(root, t.root);
+  return *this;
 }

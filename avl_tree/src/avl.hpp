@@ -17,6 +17,9 @@ public:
   void print() const;
   bool insert(int data);
   bool remove(int data);
+
+  AVL &operator=(const AVL &other);
+
   bool verify() const;
 
 private:

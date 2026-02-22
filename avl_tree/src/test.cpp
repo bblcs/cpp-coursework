@@ -179,3 +179,22 @@ TEST(AvlTest, CopyCtorLinear) {
     ASSERT_FALSE(b.remove(90 - 1 - i));
   }
 }
+
+TEST(AvlTest, CopyAsstLinear) {
+  AVL a;
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.insert(90 - 1 - i));
+  }
+
+  AVL b = a;
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.remove(90 - 1 - i));
+    ASSERT_TRUE(b.remove(90 - 1 - i));
+  }
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(90 - 1 - i));
+    ASSERT_FALSE(b.remove(90 - 1 - i));
+  }
+}
