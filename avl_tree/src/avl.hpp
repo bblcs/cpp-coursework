@@ -1,16 +1,17 @@
 #pragma once
 
 #include <cstdlib>
+#include <optional>
 
 class AVL {
 public:
   AVL();
   ~AVL();
 
-  int find(int data) const;
-  int select(size_t i) const;
-  int min() const;
-  int max() const;
+  std::optional<int> find(int data) const;
+  std::optional<int> select(size_t i) const;
+  std::optional<int> min() const;
+  std::optional<int> max() const;
   size_t rank(int data) const;
   void print() const;
   bool insert(int data);
@@ -43,7 +44,7 @@ private:
   Node *remove_rec(Node *node, int data);
   Node *find_rec(Node *node, int data) const;
   int get_rank_rec(Node *node, int data) const;
-  int select_rec(Node *node, size_t i) const;
+  std::optional<int> select_rec(Node *node, size_t i) const;
   void print_rec(Node *node) const;
   void destruct_rec(Node *node);
   bool verify_rec(Node *node) const;

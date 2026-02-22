@@ -1,7 +1,7 @@
 #include "avl.hpp"
 #include <algorithm>
-#include <climits> // existing without Option is tough
 #include <iostream>
+#include <optional>
 
 AVL::AVL() { root = nullptr; }
 
@@ -170,9 +170,9 @@ int AVL::get_rank_rec(AVL::Node *node, int data) const {
   }
 }
 
-int AVL::select_rec(AVL::Node *node, size_t i) const {
+std::optional<int> AVL::select_rec(AVL::Node *node, size_t i) const {
   if (!node) {
-    return INT_MIN;
+    return std::nullopt;
   }
 
   size_t left_size = size(node->left);
@@ -186,27 +186,27 @@ int AVL::select_rec(AVL::Node *node, size_t i) const {
   return select_rec(node->right, i - left_size - 1);
 }
 
-int AVL::find(int data) const {
+std::optional<int> AVL::find(int data) const {
   Node *node = find_rec(root, data);
   if (node) {
     return node->data;
   } else {
-    return INT_MIN;
+    return std::nullopt;
   }
 }
 
-int AVL::select(size_t i) const { return select_rec(root, i); }
+std::optional<int> AVL::select(size_t i) const { return select_rec(root, i); }
 
-int AVL::min() const {
+std::optional<int> AVL::min() const {
   Node *candidate = find_min_node(root);
   if (candidate) {
     return candidate->data;
   }
 
-  return 0;
+  return std::nullopt;
 }
 
-int AVL::max() const {
+std::optional<int> AVL::max() const {
   if (root) {
     Node *cur = root;
     while (cur && cur->right) {
@@ -215,7 +215,7 @@ int AVL::max() const {
 
     return cur->data;
   } else {
-    return 0;
+    return std::nullopt;
   }
 }
 

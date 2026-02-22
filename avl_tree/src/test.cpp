@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include <cstdlib>
 #include <gtest/gtest.h>
+#include <optional>
 
 TEST(AvlTest, LinearInsertion) {
   AVL a;
@@ -57,21 +58,21 @@ TEST(AvlTest, LinearFind) {
     ASSERT_TRUE(a.insert(i));
   }
   for (int i = 0; i < 90; i++) {
-    ASSERT_EQ(a.find(i), i);
+    ASSERT_EQ(*a.find(i), i);
   }
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.remove(i));
   }
   for (int i = 0; i < 90; i++) {
-    ASSERT_EQ(a.find(i), INT_MIN);
+    ASSERT_FALSE(a.find(i).has_value());
   }
 }
 
 TEST(AvlTest, MinMaxSingleElement) {
   AVL a;
   a.insert(1);
-  EXPECT_EQ(a.min(), 1);
-  EXPECT_EQ(a.max(), 1);
+  EXPECT_EQ(*a.min(), 1);
+  EXPECT_EQ(*a.max(), 1);
 }
 
 TEST(AvlTest, MinMaxAfterOperations) {
@@ -81,25 +82,25 @@ TEST(AvlTest, MinMaxAfterOperations) {
   a.insert(7);
   a.insert(2);
   a.insert(4);
-  EXPECT_EQ(a.min(), 2);
-  EXPECT_EQ(a.max(), 7);
+  EXPECT_EQ(*a.min(), 2);
+  EXPECT_EQ(*a.max(), 7);
   a.remove(2);
-  EXPECT_EQ(a.min(), 3);
+  EXPECT_EQ(*a.min(), 3);
   a.remove(7);
-  EXPECT_EQ(a.max(), 5);
+  EXPECT_EQ(*a.max(), 5);
 }
 
 TEST(AvlTest, SelectOnEmpty) {
   AVL a;
-  EXPECT_EQ(a.select(1), INT_MIN);
-  EXPECT_EQ(a.select(2), INT_MIN);
+  EXPECT_FALSE(a.select(1).has_value());
+  EXPECT_FALSE(a.select(2).has_value());
 }
 
 TEST(AvlTest, SelectSingle) {
   AVL a;
   a.insert(1);
-  EXPECT_EQ(a.select(0), 1);
-  EXPECT_EQ(a.select(2), INT_MIN);
+  EXPECT_EQ(*a.select(0), 1);
+  EXPECT_FALSE(a.select(2).has_value());
 }
 
 TEST(AvlTest, RankOnEmpty) {
@@ -149,12 +150,12 @@ TEST(AvlTest, SetFuzz) {
       bool removed = a.remove(val);
       EXPECT_EQ(removed, s.erase(val) == 1);
     } else {
-      int found = a.find(val);
+      auto found = a.find(val);
       auto it = s.find(val);
       if (it != s.end())
-        EXPECT_EQ(found, val);
+        EXPECT_EQ(*found, val);
       else
-        EXPECT_EQ(found, INT_MIN);
+        EXPECT_FALSE(found.has_value());
     }
     EXPECT_TRUE(a.verify());
   }
