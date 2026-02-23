@@ -30,7 +30,7 @@ private:
     Node *left;
     Node *right;
 
-    Node(int da)
+    explicit Node(int da)
         : data(da), height(1), size(1), left(nullptr), right(nullptr) {}
   };
 
