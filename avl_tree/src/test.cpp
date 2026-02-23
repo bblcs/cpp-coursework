@@ -198,3 +198,41 @@ TEST(AvlTest, CopyAsstLinear) {
     ASSERT_FALSE(b.remove(90 - 1 - i));
   }
 }
+
+TEST(AvlTest, MoveCtorLinear) {
+  AVL a;
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.insert(90 - 1 - i));
+  }
+
+  AVL b(std::move(a));
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(90 - 1 - i));
+    ASSERT_TRUE(b.remove(90 - 1 - i));
+  }
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(90 - 1 - i));
+    ASSERT_FALSE(b.remove(90 - 1 - i));
+  }
+}
+
+TEST(AvlTest, MoveAsstLinear) {
+  AVL a;
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.insert(90 - 1 - i));
+  }
+
+  AVL b = std::move(a);
+
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(90 - 1 - i));
+    ASSERT_TRUE(b.remove(90 - 1 - i));
+  }
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(90 - 1 - i));
+    ASSERT_FALSE(b.remove(90 - 1 - i));
+  }
+}
