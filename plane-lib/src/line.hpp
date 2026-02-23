@@ -11,7 +11,7 @@ class Line {
 public:
   static std::optional<Line> from_dir_and_point(const Vec &dir,
                                                 const Point &st) {
-    if (dir.length() == 0)
+    if (dir.null())
       return std::nullopt;
 
     return Line(dir, st);
