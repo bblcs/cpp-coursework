@@ -7,6 +7,7 @@ class AVL {
 public:
   AVL();
   AVL(const AVL &other);
+  AVL(AVL &&other);
   ~AVL();
 
   std::optional<int> find(int data) const;
@@ -19,6 +20,8 @@ public:
   bool remove(int data);
 
   AVL &operator=(const AVL &other);
+  AVL &operator=(AVL &&other);
+  AVL &operator=(AVL other);
 
   bool verify() const;
 

@@ -8,6 +8,8 @@ AVL::AVL() { root = nullptr; }
 
 AVL::AVL(const AVL &other) : root(nullptr) { copy_rec(*this, other.root); }
 
+AVL::AVL(AVL &&other) : root(other.root) { other.root = nullptr; }
+
 void AVL::copy_rec(AVL &building, AVL::Node *node) {
   if (node) {
     copy_rec(building, node->left);
@@ -282,5 +284,15 @@ bool AVL::verify_rec(AVL::Node *node) const {
 AVL &AVL::operator=(const AVL &other) {
   AVL t(other);
   std::swap(root, t.root);
+  return *this;
+}
+
+AVL &AVL::operator=(AVL &&other) {
+  if (this != &other) {
+    destruct_rec(root);
+    root = other.root;
+    other.root = nullptr;
+  }
+
   return *this;
 }
