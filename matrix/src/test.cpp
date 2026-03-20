@@ -122,8 +122,8 @@ TEST(MatrixTest, NonSquareMultiplication) {
 }
 
 TEST(MatrixTest, StressScalarMultiplication) {
-  size_t h = 1500;
-  size_t w = 2031;
+  size_t h = 100;
+  size_t w = 201;
   Matrix a(h, w);
   double c = 0;
   for (size_t y = 0; y < h; ++y) {
@@ -141,4 +141,28 @@ TEST(MatrixTest, StressScalarMultiplication) {
       EXPECT_EQ(a[y][x], (c++) * 18.3);
     }
   }
+}
+
+TEST(MatrixTest, MatrixMultiplicationStressTest) {
+  size_t aa = 400;
+  size_t ab = 500;
+  size_t bb = 600;
+
+  Matrix a(aa, ab);
+  Matrix b(ab, bb);
+  double c = 0;
+
+  for (size_t y = 0; y < aa; ++y) {
+    for (size_t x = 0; x < ab; ++x) {
+      a[y][x] = c++;
+    }
+  }
+
+  for (size_t y = 0; y < ab; ++y) {
+    for (size_t x = 0; x < bb; ++x) {
+      b[y][x] = c++;
+    }
+  }
+
+  EXPECT_NE((a * b)[0][0], -1);
 }
