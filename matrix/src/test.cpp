@@ -144,9 +144,9 @@ TEST(MatrixTest, StressScalarMultiplication) {
 }
 
 TEST(MatrixTest, MatrixMultiplicationStressTest) {
-  size_t aa = 400;
-  size_t ab = 500;
-  size_t bb = 600;
+  size_t aa = 1024;
+  size_t ab = 1024;
+  size_t bb = 1024;
 
   Matrix a(aa, ab);
   Matrix b(ab, bb);
