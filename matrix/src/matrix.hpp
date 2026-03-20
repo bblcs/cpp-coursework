@@ -10,9 +10,7 @@ class Matrix {
 
 public:
   Matrix(size_t h, size_t w) : base_(w * h, 0.0), rows_(h), cols_(w) {}
-
   Matrix(size_t a) : Matrix(a, a) {}
-
   Matrix(const std::vector<double> &v) : Matrix(v.size()) {
     for (size_t i = 0; i < v.size(); ++i) {
       (*this)[i][i] = v[i];
@@ -45,7 +43,7 @@ public:
 
   Matrix operator*(const Matrix &other) const {
     assert(cols_ == other.rows_);
-    Matrix m = Matrix(rows_, other.cols_);
+    Matrix m(rows_, other.cols_);
     for (size_t i = 0; i < rows_; ++i) {
       for (size_t j = 0; j < other.cols_; ++j) {
         double sum = 0;

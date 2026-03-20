@@ -4,7 +4,7 @@
 #include <vector>
 
 TEST(MatrixTest, IndexAccessOperator) {
-  Matrix m = Matrix(10, 5);
+  Matrix m(10, 5);
   for (int y = 0; y < 10; ++y) {
     for (int x = 0; x < 5; ++x) {
       m[y][x] = (y + x) * (y < x ? 1 : -1);
@@ -20,7 +20,7 @@ TEST(MatrixTest, IndexAccessOperator) {
 
 TEST(MatrixTest, VecConstructor) {
   std::vector<double> v = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  Matrix m = Matrix(v);
+  Matrix m(v);
 
   for (size_t y = 0; y < v.size(); ++y) {
     for (size_t x = 0; x < v.size(); ++x) {
@@ -34,7 +34,7 @@ TEST(MatrixTest, VecConstructor) {
 }
 
 TEST(MatrixTest, ExplicitTypeConversionOperator) {
-  Matrix m = Matrix(10);
+  Matrix m(10);
   EXPECT_EQ(static_cast<double>(m), 0);
   m[4][2] = 10;
   EXPECT_EQ(static_cast<double>(m), 10);
@@ -43,8 +43,8 @@ TEST(MatrixTest, ExplicitTypeConversionOperator) {
 }
 
 TEST(MatrixTest, Equality) {
-  Matrix a = Matrix(10);
-  Matrix b = Matrix(10);
+  Matrix a(10);
+  Matrix b(10);
 
   EXPECT_TRUE(a == b);
   a[4][2] = 2;
@@ -56,8 +56,8 @@ TEST(MatrixTest, Equality) {
 }
 
 TEST(MatrixTest, Inequality) {
-  Matrix a = Matrix(10);
-  Matrix b = Matrix(10);
+  Matrix a(10);
+  Matrix b(10);
 
   EXPECT_FALSE(a != b);
   a[4][2] = 2;
@@ -69,8 +69,8 @@ TEST(MatrixTest, Inequality) {
 }
 
 TEST(MatrixTest, Addition) {
-  Matrix a = Matrix(3);
-  Matrix b = Matrix(3);
+  Matrix a(3);
+  Matrix b(3);
   a[2][0] = 2;
   b[0][2] = 3;
   Matrix c = a + b;
@@ -89,9 +89,9 @@ void print(Matrix m) {
 }
 
 TEST(MatrixTest, SquareMultiplication) {
-  Matrix a = Matrix(3);
-  Matrix b = Matrix(3);
-  Matrix e = Matrix({1, 1, 1});
+  Matrix a(3);
+  Matrix b(3);
+  Matrix e({1, 1, 1});
   a[2][0] = 2;
   b[0][2] = 3;
   a *= b;
@@ -100,8 +100,8 @@ TEST(MatrixTest, SquareMultiplication) {
 }
 
 TEST(MatrixTest, NonSquareMultiplication) {
-  Matrix a = Matrix(1, 2);
-  Matrix b = Matrix(2, 3);
+  Matrix a(1, 2);
+  Matrix b(2, 3);
   double c = 0;
 
   for (size_t y = 0; y < 1; ++y) {
@@ -124,7 +124,7 @@ TEST(MatrixTest, NonSquareMultiplication) {
 TEST(MatrixTest, StressScalarMultiplication) {
   size_t h = 1500;
   size_t w = 2031;
-  Matrix a = Matrix(h, w);
+  Matrix a(h, w);
   double c = 0;
   for (size_t y = 0; y < h; ++y) {
     for (size_t x = 0; x < w; ++x) {
