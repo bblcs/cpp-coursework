@@ -45,12 +45,11 @@ public:
     assert(cols_ == other.rows_);
     Matrix m(rows_, other.cols_);
     for (size_t i = 0; i < rows_; ++i) {
-      for (size_t j = 0; j < other.cols_; ++j) {
-        double sum = 0;
-        for (size_t k = 0; k < cols_; ++k) {
-          sum += (*this)[i][k] * other[k][j];
+      for (size_t k = 0; k < cols_; ++k) {
+        double aik = (*this)[i][k];
+        for (size_t j = 0; j < other.cols_; ++j) {
+          m[i][j] += aik * other[k][j];
         }
-        m[i][j] = sum;
       }
     }
 
