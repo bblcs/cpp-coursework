@@ -66,10 +66,9 @@ public:
     return *this;
   }
 
-  Matrix operator*(const double d) const {
-    Matrix m = *this;
-    m *= d;
-    return m;
+  friend Matrix operator*(Matrix lhs, const double d) {
+    lhs *= d;
+    return lhs;
   }
 
   Matrix &operator*=(const double d) {

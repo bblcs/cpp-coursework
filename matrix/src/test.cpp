@@ -89,10 +89,9 @@ void print(Matrix m) {
 }
 
 TEST(MatrixTest, SquareMultiplication) {
-  std::vector<double> ve = {1, 1, 1};
   Matrix a = Matrix(3);
   Matrix b = Matrix(3);
-  Matrix e = Matrix(ve);
+  Matrix e = Matrix({1, 1, 1});
   a[2][0] = 2;
   b[0][2] = 3;
   a *= b;
