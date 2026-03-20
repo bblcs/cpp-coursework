@@ -97,7 +97,7 @@ private:
 
   friend Matrix smult(const Matrix &lhs, const Matrix &rhs) {
     if (lhs.rows_ != lhs.cols_ || rhs.rows_ != rhs.cols_ ||
-        lhs.rows_ == rhs.cols_ || std::popcount(lhs.rows_) != 1 ||
+        lhs.rows_ != rhs.cols_ || std::popcount(lhs.rows_) != 1 ||
         lhs.rows_ <= 64) {
       return cmult(lhs, rhs);
     }
