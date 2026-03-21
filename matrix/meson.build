@@ -13,3 +13,12 @@ test_exe = executable('tests',
                       dependencies: [gtest_dep])
 
 test('testt', test_exe)
+
+bench_dep = dependency('benchmark')
+bench_exe = executable('bench',
+                       'src/bench.cpp',
+                        link_with: lib,
+                        dependencies: [bench_dep],
+                        cpp_args: '-O2')
+
+benchmark('benchmark', bench_exe)

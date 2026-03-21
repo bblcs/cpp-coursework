@@ -10,6 +10,7 @@ class Matrix {
   size_t cols_;
 
 public:
+  static bool strassen;
   Matrix(size_t h, size_t w) : base_(w * h, 0.0), rows_(h), cols_(w) {}
   Matrix(size_t a) : Matrix(a, a) {}
   Matrix(const std::vector<double> &v) : Matrix(v.size()) {
@@ -96,7 +97,7 @@ private:
   }
 
   friend Matrix smult(const Matrix &lhs, const Matrix &rhs) {
-    if (lhs.rows_ != lhs.cols_ || rhs.rows_ != rhs.cols_ ||
+    if (!strassen || lhs.rows_ != lhs.cols_ || rhs.rows_ != rhs.cols_ ||
         lhs.rows_ != rhs.cols_ || std::popcount(lhs.rows_) != 1 ||
         lhs.rows_ <= 64) {
       return cmult(lhs, rhs);
