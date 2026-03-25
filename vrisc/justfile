@@ -1,5 +1,5 @@
 build:
-    g++ src/emulator.cpp
+    g++ src/emulator.cpp -g
 
 run: build
     ./a.out

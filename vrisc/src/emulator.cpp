@@ -1,9 +1,6 @@
-#include <algorithm>
 #include <cassert>
-#include <fstream>
 #include <iostream>
 #include <memory>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -25,10 +22,12 @@ struct EmulatorState {
   static const size_t regs_size = 4;
   static const size_t mem_size = 1024;
 
-  std::vector<int> registers_{regs_size};
-  std::vector<int> mem_{mem_size};
+  std::vector<int> registers_;
+  std::vector<int> mem_;
 
   size_t pc_ = 0; // program counter register
+
+  EmulatorState() : registers_(regs_size, 0), mem_(mem_size, 0) {}
 };
 
 #define DEF_REGREG(name, EVAVA)                                                \
@@ -139,8 +138,8 @@ std::vector<std::unique_ptr<Instruction>> parse(const std::string &program) {
     EQX_IF(Sub)
     EQX_IF(Mul)
     EQX_IF(Div)
-    SL_IF("Load", LoadImm)
-    SL_IF("Store", StoreImm)
+    SL_IF(Load, LoadImm)
+    SL_IF(Store, StoreImm)
     JMP_IF(Jmp)
     JMP_IF(Jmpz)
   }
@@ -168,20 +167,6 @@ int emulate(const std::string &program_text) {
 }
 } // namespace Emulator
 
-// Simple helper for file as single line. Feel free to change it or delete it
-// completely
-std::optional<std::string> readStringFromFile(const std::string &filename) {
-  std::ifstream file{filename};
-
-  if (!file)
-    return {};
-
-  std::stringstream buf;
-  buf << file.rdbuf();
-
-  return buf.str();
-}
-
 int main() {
   // For writing test you can write programs directly in raw string literals
   std::string factorial = R"(
@@ -200,31 +185,25 @@ int main() {
   assert(Emulator::emulate(factorial) == 120);
   assert(Emulator::emulate(factorial) == 120);
   assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
 
-  // Or you can use file IO
-  std::string filename = "factorial.vrisc";
-  std::optional<std::string> program = readStringFromFile("factorial.vrisc");
+  std::string tuff = R"(
+    Mov R1 19
+    Store R1 12
+    Load R0 12
+  )";
 
-  if (!program) {
-    std::cerr << "Can't open file" << std::endl;
-    return 1;
-  }
-
+  assert(Emulator::emulate(tuff) == 19);
+  assert(Emulator::emulate(tuff) == 19);
   assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(tuff) == 19);
+  assert(Emulator::emulate(tuff) == 19);
+  assert(Emulator::emulate(tuff) == 19);
   assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(tuff) == 19);
+  assert(Emulator::emulate(tuff) == 19);
+  assert(Emulator::emulate(tuff) == 19);
   assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-  assert(Emulator::emulate(factorial) == 120);
-
-  // TODO: remeber the tests is very important!
+  assert(Emulator::emulate(tuff) == 19);
 
   return 0;
 }
