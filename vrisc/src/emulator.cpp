@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -196,7 +197,14 @@ int main() {
   )";
 
   // The result should be 120
-  int fact5 = Emulator::emulate(factorial);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
 
   // Or you can use file IO
   std::string filename = "factorial.vrisc";
@@ -207,8 +215,14 @@ int main() {
     return 1;
   }
 
-  // And this also should be 120
-  int another_fact = Emulator::emulate(*program);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
+  assert(Emulator::emulate(factorial) == 120);
 
   // TODO: remeber the tests is very important!
 
