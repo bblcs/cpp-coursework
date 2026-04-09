@@ -5,21 +5,21 @@
 #include <optional>
 
 TEST(AvlTest, LinearInsertion) {
-  AVL a;
+  AVL<int> a;
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(90 - 1 - i));
   }
 }
 
 TEST(AvlTest, ReversedLinearInsertion) {
-  AVL a;
+  AVL<int> a;
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(i));
   }
 }
 
 TEST(AvlTest, LinearReinsertion) {
-  AVL a;
+  AVL<int> a;
   ASSERT_TRUE(a.insert(10));
   for (int i = 0; i < 90; i++) {
     ASSERT_FALSE(a.insert(10));
@@ -27,7 +27,7 @@ TEST(AvlTest, LinearReinsertion) {
 }
 
 TEST(AvlTest, LinearDeletion) {
-  AVL a;
+  AVL<int> a;
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(i));
   }
@@ -40,7 +40,7 @@ TEST(AvlTest, LinearDeletion) {
 }
 
 TEST(AvlTest, ReversedLinearDeletion) {
-  AVL a;
+  AVL<int> a;
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(i));
   }
@@ -53,7 +53,7 @@ TEST(AvlTest, ReversedLinearDeletion) {
 }
 
 TEST(AvlTest, LinearFind) {
-  AVL a;
+  AVL<int> a;
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(i));
   }
@@ -69,14 +69,14 @@ TEST(AvlTest, LinearFind) {
 }
 
 TEST(AvlTest, MinMaxSingleElement) {
-  AVL a;
+  AVL<int> a;
   a.insert(1);
   EXPECT_EQ(*a.min(), 1);
   EXPECT_EQ(*a.max(), 1);
 }
 
 TEST(AvlTest, MinMaxAfterOperations) {
-  AVL a;
+  AVL<int> a;
   a.insert(5);
   a.insert(3);
   a.insert(7);
@@ -91,25 +91,25 @@ TEST(AvlTest, MinMaxAfterOperations) {
 }
 
 TEST(AvlTest, SelectOnEmpty) {
-  AVL a;
+  AVL<int> a;
   EXPECT_FALSE(a.select(1).has_value());
   EXPECT_FALSE(a.select(2).has_value());
 }
 
 TEST(AvlTest, SelectSingle) {
-  AVL a;
+  AVL<int> a;
   a.insert(1);
   EXPECT_EQ(*a.select(0), 1);
   EXPECT_FALSE(a.select(2).has_value());
 }
 
 TEST(AvlTest, RankOnEmpty) {
-  AVL a;
+  AVL<int> a;
   EXPECT_EQ(a.rank(1), 0);
 }
 
 TEST(AvlTest, RankSingle) {
-  AVL a;
+  AVL<int> a;
   a.insert(1);
   EXPECT_EQ(a.rank(0), 0);
   EXPECT_EQ(a.rank(1), 0);
@@ -117,7 +117,7 @@ TEST(AvlTest, RankSingle) {
 }
 
 TEST(AvlTest, RankMultiple) {
-  AVL a;
+  AVL<int> a;
   std::vector<int> vals = {5, 3, 8, 1, 4, 7, 9};
   for (int v : vals) {
     a.insert(v);
@@ -136,7 +136,7 @@ TEST(AvlTest, RankMultiple) {
 }
 
 TEST(AvlTest, SetFuzz) {
-  AVL a;
+  AVL<int> a;
   std::set<int> s;
   std::srand(std::time(0));
 
@@ -162,13 +162,13 @@ TEST(AvlTest, SetFuzz) {
 }
 
 TEST(AvlTest, CopyCtorLinear) {
-  AVL a;
+  AVL<int> a;
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(90 - 1 - i));
   }
 
-  AVL b(a);
+  AVL<int> b(a);
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.remove(90 - 1 - i));
@@ -181,13 +181,13 @@ TEST(AvlTest, CopyCtorLinear) {
 }
 
 TEST(AvlTest, CopyAsstLinear) {
-  AVL a;
+  AVL<int> a;
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(90 - 1 - i));
   }
 
-  AVL b = a;
+  AVL<int> b = a;
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.remove(90 - 1 - i));
@@ -200,13 +200,13 @@ TEST(AvlTest, CopyAsstLinear) {
 }
 
 TEST(AvlTest, MoveCtorLinear) {
-  AVL a;
+  AVL<int> a;
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(90 - 1 - i));
   }
 
-  AVL b(std::move(a));
+  AVL<int> b(std::move(a));
 
   for (int i = 0; i < 90; i++) {
     ASSERT_FALSE(a.remove(90 - 1 - i));
@@ -219,13 +219,13 @@ TEST(AvlTest, MoveCtorLinear) {
 }
 
 TEST(AvlTest, MoveAsstLinear) {
-  AVL a;
+  AVL<int> a;
 
   for (int i = 0; i < 90; i++) {
     ASSERT_TRUE(a.insert(90 - 1 - i));
   }
 
-  AVL b = std::move(a);
+  AVL<int> b = std::move(a);
 
   for (int i = 0; i < 90; i++) {
     ASSERT_FALSE(a.remove(90 - 1 - i));
