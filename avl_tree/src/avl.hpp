@@ -25,7 +25,7 @@ public:
 
   AVL(const AVL<T> &other) : root(nullptr) { copy_rec(*this, other.root); }
   AVL(AVL<T> &&other) : root(other.root) { other.root = nullptr; }
-  ~AVL<T>() { destruct_rec(root); }
+  ~AVL() { destruct_rec(root); }
 
   std::optional<T> find(T data) const {
     Node *node = find_rec(root, data);
@@ -75,12 +75,12 @@ public:
   }
   bool verify() const { return verify_rec(root); }
 
-  AVL<T> &operator=(const AVL<T> &other) {
-    AVL<T> t(other);
+  AVL &operator=(const AVL &other) {
+    AVL t(other);
     std::swap(root, t.root);
     return *this;
   }
-  AVL<T> &operator=(AVL<T> &&other) {
+  AVL &operator=(AVL &&other) {
     if (this != &other) {
       destruct_rec(root);
       root = other.root;
@@ -91,7 +91,7 @@ public:
   }
 
 private:
-  void copy_rec(AVL<T> &building, Node *node) {
+  void copy_rec(AVL &building, Node *node) {
     if (node) {
       copy_rec(building, node->left);
       building.insert(node->data);
