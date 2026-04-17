@@ -79,7 +79,7 @@ public:
 class StringReaderWriter : public StringReader, public StringWriter {
 public:
   StringReaderWriter(std::string s)
-      : StringIO(std::move(s)), StringReader(s), StringWriter(s) {}
+      : StringIO(std::move(s)), StringReader(""), StringWriter("") {}
 };
 
 } // namespace io

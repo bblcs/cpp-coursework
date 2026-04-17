@@ -3,7 +3,7 @@ project('io', 'cpp',
 
 gtest_dep = dependency('gtest_main')
 
-test_src = files('src/string_test.cpp', 'src/file_test.cpp')
+test_src = files('src/string_test.cpp', 'src/file_test.cpp', 'src/buff_string_test.cpp', 'src/buff_buff_file_test.cpp')
 test_exe = executable('io_test',
                       test_src,
                       dependencies: [gtest_dep])
