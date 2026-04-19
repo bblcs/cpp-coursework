@@ -1,0 +1,7 @@
+cxx := env("CXX", "g++")
+
+build:
+     {{cxx}} primecalcen.cpp -o bin
+
+run: build
+    ./bin
