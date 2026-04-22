@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <optional>
+#include <stack>
 
 template <typename T> class AVL {
 private:
@@ -89,6 +90,48 @@ public:
 
     return *this;
   }
+
+  class iterator {
+    std::stack<T> content_;
+
+    void init_rec(Node *node) {
+      if (node) {
+        init_rec(node->left);
+        content_.push(node->data);
+        init_rec(node->right);
+      }
+    }
+
+  public:
+    explicit iterator(Node *root) { init_rec(root); }
+    explicit iterator() {};
+
+    bool operator==(const iterator other) const {
+      if (content_.empty() && other.content_.empty()) {
+        return true;
+      } else if (content_.empty() || other.content_.empty()) {
+        return false;
+      } else {
+        return content_.top() == other.content_.top();
+      }
+    }
+    bool operator!=(const iterator other) const { return !(*this == other); }
+
+    iterator &operator++() {
+      content_.pop();
+      return *this;
+    }
+
+    iterator &operator++(int) {
+      iterator retval = *this;
+      content_.pop();
+      return retval;
+    }
+
+    T &operator*() { return content_.top(); }
+  };
+  iterator begin() { return iterator(root); }
+  iterator end() { return iterator(nullptr); }
 
 private:
   void copy_rec(AVL &building, Node *node) {

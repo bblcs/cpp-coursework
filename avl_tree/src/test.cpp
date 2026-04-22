@@ -236,3 +236,27 @@ TEST(AvlTest, MoveAsstLinear) {
     ASSERT_FALSE(b.remove(90 - 1 - i));
   }
 }
+
+TEST(AvlTest, IteratorLinear) {
+  AVL<int> a;
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.insert(i));
+  }
+  for (AVL<int>::iterator it = a.begin(); it != a.end(); ++it) {
+    ASSERT_TRUE(a.remove(*it));
+  }
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(i));
+  }
+  ASSERT_EQ(a.begin(), a.end());
+  for (int i = 0; i < 90; i++) {
+    ASSERT_TRUE(a.insert(i));
+  }
+  for (int elem : a) {
+    ASSERT_TRUE(a.remove(elem));
+  }
+  for (int i = 0; i < 90; i++) {
+    ASSERT_FALSE(a.remove(i));
+  }
+  ASSERT_EQ(a.begin(), a.end());
+}
