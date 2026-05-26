@@ -5,19 +5,12 @@
 template <typename Checker, typename... Args>
 int getIndexOfFirstMatch(Checker check, Args... args) {
   std::size_t idx = 0;
-  bool found = false;
-  ([&](auto &&arg) {
-    if (found)
-      return true;
-    if (check(std::forward<decltype(arg)>(arg))) {
-      found = true;
-      return true;
-    }
-    ++idx;
-    return false;
-  }(std::forward<Args>(args)) ||
-   ...);
-  return found ? static_cast<int>(idx) : -1;
+
+  if (((check(std::forward<Args>(args)) ? true : (++idx, false)) || ...)) {
+    return static_cast<int>(idx);
+  }
+
+  return -1;
 }
 
 int main(void) {
